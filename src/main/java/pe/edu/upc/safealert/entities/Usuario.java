@@ -52,7 +52,6 @@ public class Usuario implements Serializable {
         this.fecha_Registro = fecha_Registro;
         this.roles = roles;
     }
-
     public int getIdUsuario() {
         return idUsuario;
     }
