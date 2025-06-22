@@ -1,5 +1,4 @@
 package pe.edu.upc.safealert.dtos;
-
 public class ContarRespuestaDTO {
     private String username;
     private String titulo;
