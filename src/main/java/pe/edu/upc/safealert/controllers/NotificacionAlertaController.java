@@ -74,7 +74,9 @@ public class NotificacionAlertaController {
         for (String[] columna : filaLista) {
             CantidadNotificacionxUserDTO dto = new CantidadNotificacionxUserDTO();
             dto.setUsername(columna[0]);
-            dto.setCantidad(Integer.parseInt(columna[1]));
+            dto.setTelefono(columna[1]);
+            dto.setCorreo(columna[2]);
+            dto.setCantidad(Integer.parseInt(columna[3]));
             dtoLista.add(dto);
         }
         log.debug("Cantidad de notificaciones revisadas por usuario procesada correctamente");

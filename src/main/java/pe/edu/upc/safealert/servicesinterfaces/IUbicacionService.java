@@ -11,5 +11,5 @@ public interface IUbicacionService {
     public Ubicacion listarId(int idUbicacion);
     public void delete(int idUbicacion);
     public void update(Ubicacion u);
-
+    public List<String[]> findUsuariosEnZonasDeAltoRiesgo();
 }

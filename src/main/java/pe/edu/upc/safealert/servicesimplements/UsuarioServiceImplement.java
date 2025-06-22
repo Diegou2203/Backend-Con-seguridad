@@ -54,8 +54,4 @@ public class UsuarioServiceImplement implements IUsuarioService {
         }
     }
 
-    @Override
-    public List<String[]> findUsuariosEnZonasDeAltoRiesgo() {
-        return uR.findUsuariosEnZonasDeAltoRiesgo();
-    }
 }

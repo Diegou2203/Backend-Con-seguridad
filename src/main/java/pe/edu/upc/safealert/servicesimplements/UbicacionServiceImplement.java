@@ -29,4 +29,8 @@ public class UbicacionServiceImplement implements IUbicacionService {
     @Override
     public void update(Ubicacion u) {uR.save(u);}
 
+    @Override
+    public List<String[]> findUsuariosEnZonasDeAltoRiesgo() {
+        return uR.findUsuariosEnZonasDeAltoRiesgo();
+    }
 }

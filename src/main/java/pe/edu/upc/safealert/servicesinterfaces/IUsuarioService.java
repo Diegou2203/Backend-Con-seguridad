@@ -12,5 +12,4 @@ public interface IUsuarioService {
     public void delete(int idUsuario);
     public void update(Usuario fn);
 
-    public List<String[]> findUsuariosEnZonasDeAltoRiesgo();
 }
