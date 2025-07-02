@@ -21,6 +21,7 @@ public class SugerenciaPreventivaController {
     private ISugerenciaPreventivaService spS;
 
     @GetMapping("/list")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USUARIO')")
     public List<SugerenciaPreventivaDTO> listarSugerenciapreventiva() {
         log.info("Solicitud GET para listar todas las sugerencias preventivas");
         return spS.list().stream().map(x -> {
@@ -40,6 +41,7 @@ public class SugerenciaPreventivaController {
     }
 
     @GetMapping("/list/{idSugerenciaPreventiva}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USUARIO')")
     public SugerenciaPreventivaDTO listarId(@PathVariable("idSugerenciaPreventiva") int idSugerenciaPreventiva) {
         log.info("Solicitud GET para obtener sugerencia preventiva con ID: {}", idSugerenciaPreventiva);
         ModelMapper m = new ModelMapper();

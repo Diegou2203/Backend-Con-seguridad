@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.safealert.dtos.RolDTO;
 import pe.edu.upc.safealert.entities.Rol;
@@ -19,11 +20,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/rol")
 @Slf4j
 public class RolController {
-
+//SOLO ACTUA ADMIN
     @Autowired
     private IRolService rS;
 
     @GetMapping("/list")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<RolDTO> listarRol() {
         log.info("Solicitud GET para listar todos los roles");
         return rS.list().stream().map(x -> {
@@ -33,6 +35,7 @@ public class RolController {
     }
 
     @PostMapping("/insert")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void insertarRol(@RequestBody RolDTO RDto) {
         log.info("Solicitud POST para insertar un nuevo rol: {}", RDto);
         ModelMapper modelMapper = new ModelMapper();
@@ -42,6 +45,7 @@ public class RolController {
     }
 
     @GetMapping("/list/{idRol}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public RolDTO listarId(@PathVariable("idRol") int idRol) {
         log.info("Solicitud GET para obtener rol por ID: {}", idRol);
         ModelMapper m = new ModelMapper();
@@ -49,6 +53,7 @@ public class RolController {
     }
 
     @PutMapping("/modify")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void modificarRol(@RequestBody RolDTO RDto) {
         log.info("Solicitud PUT para modificar un rol: {}", RDto);
         ModelMapper m = new ModelMapper();
@@ -58,6 +63,7 @@ public class RolController {
     }
 
     @DeleteMapping("/delete/{idRol}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> eliminarRol(@PathVariable("idRol") int idRol) {
         log.info("Solicitud DELETE para eliminar un rol: {}", idRol);
         try {

@@ -21,6 +21,7 @@ public class SimulacroController {
     private ISimulacroService sS;
 
     @GetMapping("/list")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USUARIO')")
     public List<SimulacroDTO> listarSimulacros() {
         log.info("Solicitud GET para listar todos los simulacros");
         return sS.list().stream().map(x -> {
@@ -40,6 +41,7 @@ public class SimulacroController {
     }
 
     @GetMapping("/list/{idSimulacro}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USUARIO')")
     public SimulacroDTO listarId(@PathVariable("idSimulacro") int idSimulacro) {
         log.info("Solicitud GET para obtener simulacro con ID: {}", idSimulacro);
         ModelMapper m = new ModelMapper();

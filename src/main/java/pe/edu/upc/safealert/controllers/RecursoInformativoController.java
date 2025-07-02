@@ -23,6 +23,7 @@ public class RecursoInformativoController {
     private IRecursoInformativoService riS;
 
     @GetMapping("/list")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USUARIO')")
     public List<RecursoInformativoDTO> listarRecursosInformativos() {
         log.info("Solicitud GET para listar todos los recursos informativos");
         return riS.list().stream().map(x -> {
@@ -42,6 +43,7 @@ public class RecursoInformativoController {
     }
 
     @GetMapping("/list/{idRecursoInformativo}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USUARIO')")
     public RecursoInformativoDTO listarPorId(@PathVariable("idRecursoInformativo") int idRecursoInformativo) {
         log.info("Solicitud GET para obtener recurso informativo con ID: {}", idRecursoInformativo);
         ModelMapper modelMapper = new ModelMapper();
@@ -66,7 +68,7 @@ public class RecursoInformativoController {
     }
 
     @GetMapping("/list/CantidadRecursosPorUsuario")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USUARIO')")
     public List<CantidadRecursoxUsuarioDTO> cantidadRecursos() {
         log.info("Solicitud GET para obtener cantidad de recursos informativos por usuario");
         List<CantidadRecursoxUsuarioDTO> dtoLista = new ArrayList<>();

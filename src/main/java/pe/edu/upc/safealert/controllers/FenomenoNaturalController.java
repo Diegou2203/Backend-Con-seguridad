@@ -24,6 +24,7 @@ public class FenomenoNaturalController {
     private IFenomenoNaturalService fnS;
 
     @GetMapping("/list")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public List<FenomenoNaturalDTO> listarFenomenos() {
         log.info("Solicitud GET para listar todos los fenómenos naturales");
         return fnS.list().stream().map(x -> {
@@ -44,6 +45,7 @@ public class FenomenoNaturalController {
 
     // GET: obtener fenómeno natural por ID
     @GetMapping("/list/{idFenomenoNatural}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public FenomenoNaturalDTO listarId(@PathVariable("idFenomenoNatural") int idFenomenoNatural) {
         log.info("Solicitud GET para obtener fenómeno natural con ID: {}", idFenomenoNatural);
         ModelMapper m = new ModelMapper();
@@ -69,7 +71,7 @@ public class FenomenoNaturalController {
 
     // GET: obtener cantidad de fenómenos por ubicación
     @GetMapping("/list/CantidadFenomenosNaturalesPorUbicacion")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public List<CantidadUbicacionxFDTO> cantidadFenomeno() {
         log.info("Solicitud GET para obtener cantidad de fenómenos por ubicación");
         List<CantidadUbicacionxFDTO> dtoLista = new ArrayList<>();
@@ -86,7 +88,7 @@ public class FenomenoNaturalController {
 
     // GET: obtener histórico de fenómenos por intensidad
     @GetMapping("/list/HistoricoPorIntensidad")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public List<HistoricoFenomenosDTO> obtenerHistoricoPorIntensidad() {
         log.info("Solicitud GET para obtener histórico de fenómenos por intensidad");
         List<String[]> data = fnS.findHistoricoFenomenosPorIntensidad();

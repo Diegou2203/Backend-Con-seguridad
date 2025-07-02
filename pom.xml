@@ -10,7 +10,7 @@
     </parent>
     <groupId>pe.edu.upc</groupId>
     <artifactId>SAF</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>SAF</name>
     <description>SAF</description>
     <url/>
@@ -85,13 +85,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.9</version>
-        </dependency>
-
-        <!-- Implementación simple para pruebas locales (puedes usar logback también) -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
             <version>2.0.9</version>
         </dependency>
 

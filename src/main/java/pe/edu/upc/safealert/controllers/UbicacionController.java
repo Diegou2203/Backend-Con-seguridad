@@ -23,6 +23,7 @@ public class UbicacionController {
     private IUbicacionService uS;
 
     @GetMapping("/list")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public List<UbicacionDTO> listarUbicaciones() {
         log.info("Solicitud GET para listar todas las ubicaciones");
         return uS.list().stream().map(x -> {
@@ -32,7 +33,7 @@ public class UbicacionController {
     }
 
     @PostMapping("/insert")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USUARIO')")
     public void insertar(@RequestBody UbicacionDTO uDTO) {
         log.info("Solicitud POST para insertar una nueva ubicación: {}", uDTO);
         ModelMapper modelMapper = new ModelMapper();
@@ -42,6 +43,7 @@ public class UbicacionController {
     }
 
     @GetMapping("/list/{idUbicacion}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public UbicacionDTO listarId(@PathVariable("idUbicacion") int idUbicacion) {
         log.info("Solicitud GET para obtener ubicación con ID: {}", idUbicacion);
         ModelMapper m = new ModelMapper();
@@ -49,14 +51,14 @@ public class UbicacionController {
     }
 
     @DeleteMapping("/delete/{idUbicacion}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public void eliminar(@PathVariable("idUbicacion") int idUbicacion) {
         log.warn("Solicitud DELETE para eliminar ubicación con ID: {}", idUbicacion);
         uS.delete(idUbicacion);
     }
 
     @PutMapping("/modify")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public void modificar(@RequestBody UbicacionDTO uDTO) {
         log.info("Solicitud PUT para modificar ubicación: {}", uDTO);
         ModelMapper m = new ModelMapper();
@@ -66,7 +68,7 @@ public class UbicacionController {
     }
 
     @GetMapping("/list/ListaUsuariosPorZonasAltoRiesgo")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public List<UsuariosAltoRiesgoDTO> ListarUsuariosEnZonasDeAltoRiesgo() {
         log.info("GET request: listar usuarios en zonas de alto riesgo");
         List<String[]> data = uS.findUsuariosEnZonasDeAltoRiesgo();

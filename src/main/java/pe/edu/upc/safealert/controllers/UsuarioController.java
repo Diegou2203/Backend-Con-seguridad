@@ -21,11 +21,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/usuario")
 @Slf4j
 public class UsuarioController {
-
+//el usuario solo puede hacer get, getlist, y modificar
     @Autowired
     private IUsuarioService uS;
 
     @GetMapping("/list")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public List<UsuarioDTOListar> listarUsuario() {
         log.info("GET request: listar todos los usuarios");
         return uS.list().stream().map(x -> {
@@ -35,6 +36,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/insert")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void insertarUsuario(@RequestBody UsuarioDTO fNDto) {
         log.info("POST request: insertar nuevo usuario: {}", fNDto);
         ModelMapper modelMapper = new ModelMapper();
@@ -44,6 +46,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/list/{idUsuario}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public UsuarioDTOListar listarId(@PathVariable("idUsuario") int idUsuario) {
         log.info("GET request: obtener usuario con ID: {}", idUsuario);
         ModelMapper m = new ModelMapper();
@@ -51,6 +54,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/delete/{idUsuario}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> eliminarUsuario(@PathVariable("idUsuario") int idUsuario) {
         try {
             uS.delete(idUsuario);
@@ -65,6 +69,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/modify")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public void modificarUsuario(@RequestBody UsuarioDTO fnDTO) {
         log.info("PUT request: modificar usuario: {}", fnDTO);
         ModelMapper m = new ModelMapper();

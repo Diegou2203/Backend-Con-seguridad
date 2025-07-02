@@ -24,6 +24,7 @@ public class RespuestaController {
     private IRespuestaService reS;
 
     @GetMapping("/list")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public List<RespuestaDTO> listarrespuesta() {
         log.info("Solicitud GET para listar todas las respuestas");
         return reS.list().stream().map(x -> {
@@ -33,6 +34,7 @@ public class RespuestaController {
     }
 
     @GetMapping("/list/BusquedasPorTitulo")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public List<RespuestaDTO> buscar(@RequestParam String t) {
         log.info("Solicitud GET para buscar respuestas por título: {}", t);
         return reS.buscarportitulo(t).stream().map(x -> {
@@ -52,6 +54,7 @@ public class RespuestaController {
     }
 
     @GetMapping("/list/{idRespuesta}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public RespuestaDTO listarId(@PathVariable("idRespuesta") int idRespuesta) {
         log.info("Solicitud GET para obtener respuesta por ID: {}", idRespuesta);
         ModelMapper m = new ModelMapper();
@@ -76,7 +79,7 @@ public class RespuestaController {
     }
 
     @GetMapping("/list/CantidadRespuestasPorUsuario")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public List<ContarRespuestaDTO> cantidadRespuestasPorUsuario() {
         log.info("Solicitud GET para contar respuestas por rol de administrador");
         List<ContarRespuestaDTO> dtoLista = new ArrayList<>();

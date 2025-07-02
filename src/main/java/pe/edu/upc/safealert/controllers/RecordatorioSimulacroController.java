@@ -21,6 +21,7 @@ public class RecordatorioSimulacroController {
     private IRecordatorioSimulacroService rsS;
 
     @GetMapping("/list")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USUARIO')")
     public List<RecordatorioSimulacroDTO> listarRecordatorioSimulacro() {
         log.info("Solicitud GET para listar recordatorios de simulacro");
         return rsS.list().stream().map(x -> {
@@ -40,6 +41,7 @@ public class RecordatorioSimulacroController {
     }
 
     @GetMapping("/list/{idRecordatorioSimulacro}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USUARIO')")
     public RecordatorioSimulacroDTO listarId(@PathVariable("idRecordatorioSimulacro") int idRecordatorioSimulacro) {
         log.info("Solicitud GET para obtener recordatorio con ID: {}", idRecordatorioSimulacro);
         ModelMapper m = new ModelMapper();

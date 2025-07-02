@@ -18,11 +18,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/notificacionalerta")
 @Slf4j
 public class NotificacionAlertaController {
-
+ //el usuario normal solo puede ver las listas
     @Autowired
     private INotificacionAlertaService naS;
 
     @GetMapping("/list")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public List<NotificacionAlertaDTO> listarSimulacros() {
         log.info("Solicitud GET para listar notificaciones de alerta");
         return naS.list().stream().map(x -> {
@@ -42,6 +43,7 @@ public class NotificacionAlertaController {
     }
 
     @GetMapping("/list/{idNotificacionAlerta}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public NotificacionAlertaDTO listarPorId(@PathVariable("idNotificacionAlerta") int idNotificacionAlerta) {
         log.info("Solicitud GET para obtener notificación con ID: {}", idNotificacionAlerta);
         ModelMapper modelMapper = new ModelMapper();
@@ -57,6 +59,7 @@ public class NotificacionAlertaController {
     }
 
     @PutMapping("/modify")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void modificar(@RequestBody NotificacionAlertaDTO naDTO) {
         log.info("Solicitud PUT para modificar notificación de alerta: {}", naDTO);
         ModelMapper modelMapper = new ModelMapper();

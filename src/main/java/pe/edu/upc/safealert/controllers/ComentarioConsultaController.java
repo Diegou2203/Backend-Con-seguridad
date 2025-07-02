@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.safealert.dtos.BusquedaComentarioPorTemaDTO;
 import pe.edu.upc.safealert.dtos.CantidadRespuestaxComentarioDTO;
 import pe.edu.upc.safealert.dtos.ComentarioConsultaDTO;
-import pe.edu.upc.safealert.dtos.ContarComentarioDTO;
 import pe.edu.upc.safealert.entities.ComentarioConsulta;
 import pe.edu.upc.safealert.servicesinterfaces.IComentarioConsultaService;
 
@@ -17,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//AMBOS ROLES HACEN ALL EXCEPTO QUE EL USUARIO ES EL UNICO QUE SUBE UN COMENTARIO
+
 @RestController
 @RequestMapping("/comentario")
 @Slf4j // Lombok
@@ -24,7 +25,7 @@ public class ComentarioConsultaController {
 
     @Autowired
     private IComentarioConsultaService coS;
-
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     @GetMapping("/list")
     public List<ComentarioConsultaDTO> listarComentario() {
         log.info("Solicitud GET para listar todos los comentarios");
@@ -35,6 +36,7 @@ public class ComentarioConsultaController {
     }
 
     @PostMapping("/insert")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public void insertar(@RequestBody ComentarioConsultaDTO coDto) {
         log.info("Solicitud POST para insertar un nuevo comentario: {}", coDto);
         ModelMapper modelMapper = new ModelMapper();
@@ -45,6 +47,7 @@ public class ComentarioConsultaController {
 
     // GET: obtener comentario por ID
     @GetMapping("/list/{idComentario}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public ComentarioConsultaDTO listarId(@PathVariable("idComentario") int idComentario) {
         log.info("Solicitud GET para obtener comentario con ID: {}", idComentario);
         ModelMapper m = new ModelMapper();
@@ -52,13 +55,16 @@ public class ComentarioConsultaController {
         return coDTO;
     }
 
+
     @DeleteMapping("/delete/{idComentario}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public void eliminar(@PathVariable("idComentario") int idComentario) {
         log.warn("Solicitud DELETE para eliminar comentario con ID: {}", idComentario);
         coS.delete(idComentario);
     }
 
     @PutMapping("/modify")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public void modificar(@RequestBody ComentarioConsultaDTO coDTO) {
         log.info("Solicitud PUT para modificar comentario: {}", coDTO);
         ModelMapper m = new ModelMapper();
@@ -68,7 +74,7 @@ public class ComentarioConsultaController {
     }
 
     @GetMapping("/list/ComentarioPorTema")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public List<BusquedaComentarioPorTemaDTO> cantidadPorComentario(@RequestParam String tema) {
         log.info("Solicitud GET para obtener informacion de un comentario filtrando por tema");
         List<BusquedaComentarioPorTemaDTO> dtoLista = new ArrayList<>();
@@ -77,7 +83,7 @@ public class ComentarioConsultaController {
             BusquedaComentarioPorTemaDTO dto = new BusquedaComentarioPorTemaDTO();
             dto.setUsername(columna[0]);
             dto.setContenido(columna[1]);
-            dto.setFecha_comentario(LocalDate.parse(columna[2]));
+            dto.setFechaComentario(LocalDate.parse(columna[2]));
             dtoLista.add(dto);
         }
         log.debug("Comentario filtrado por tema");
@@ -85,7 +91,7 @@ public class ComentarioConsultaController {
     }
 
     @GetMapping("/list/CantidadRespuestasPorComentario")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USUARIO')")
     public List<CantidadRespuestaxComentarioDTO> cantidadRespuestas() {
         log.info("Solicitud GET para contar respuestas por comentario");
         List<CantidadRespuestaxComentarioDTO> dtoLista = new ArrayList<>();

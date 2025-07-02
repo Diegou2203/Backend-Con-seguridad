@@ -21,6 +21,7 @@ public class TipoFenomenoController {
     private TipoFenomenoServiceImplement tS;
 
     @GetMapping("/list")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USUARIO')")
     public List<TipoFenomenoDTO> listartipofenomeno() {
         log.info("Solicitud GET para listar todos los tipos de fenómeno");
         return tS.listar().stream().map(x -> {
@@ -40,6 +41,7 @@ public class TipoFenomenoController {
     }
 
     @GetMapping("/list/{idTipoFenomeno}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USUARIO')")
     public TipoFenomenoDTO listarId(@PathVariable("idTipoFenomeno") int idTipoFenomeno) {
         log.info("Solicitud GET para obtener tipo de fenómeno con ID: {}", idTipoFenomeno);
         ModelMapper m = new ModelMapper();
